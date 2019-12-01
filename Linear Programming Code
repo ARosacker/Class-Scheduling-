@@ -1,0 +1,24 @@
+set TEACHERS;
+set CLASSROOMS;
+set CLASSES;
+set TIMES;
+
+param classpref {CLASSES, TEACHERS} > 0; 
+
+var Assign {TEACHERS, CLASSES, TIMES} >=0, <=1;  #Made decision variable linear and not binary
+
+minimize Total: 
+sum {t in TEACHERS} sum{l in CLASSES} sum{i in TIMES} classpref[l,t]*Assign[t,l,i] ;
+#optimized the best scheduled based on minimizing each teacher's class preference
+ 
+subject to OneTeacherPerClass {t in TEACHERS, i in TIMES}:
+sum{l in CLASSES} Assign[t,l,i] <= 1 ;   
+	#Each teacher can only teach at most one class at any given time
+
+subject to EveryClassTaught {l in CLASSES} :
+sum {t in TEACHERS} sum {i in TIMES} Assign[t,l,i] =1; 
+	#Every class has to be taught
+
+subject to 5MaxClasses {t in TEACHERS} :
+sum {l in CLASSES} sum{i in TIMES} Assign[t,l,i] <= 5; 
+	#Each teacher can only teach up to 5 classes
