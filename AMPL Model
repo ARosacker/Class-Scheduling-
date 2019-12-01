@@ -24,7 +24,7 @@ subject to 5MaxClasses {t in TEACHERS} :
 sum {l in CLASSES} sum{i in TIMES} Assign[t,l,i] <= 5; 
 	#Each teacher can only teach up to 5 classes
   
-  DATA:
+Data;
 set TEACHERS := Rosacker Smith Johnson McIlroy Davis ;
 
 set CLASSROOMS := 2610 2620 2630 2640 2650 ; 
